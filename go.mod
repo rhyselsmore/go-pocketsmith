@@ -1,5 +1,5 @@
 module github.com/rhyselsmore/go-pocketsmith
 
-go 1.25.6
+go 1.26.0
 
-require github.com/joho/godotenv v1.5.1 // indirect
+require github.com/joho/godotenv v1.5.1
