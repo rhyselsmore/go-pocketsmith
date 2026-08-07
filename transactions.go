@@ -29,7 +29,7 @@ type Transaction struct {
 	NeedsReview          bool               `json:"needs_review"`
 	Status               string             `json:"status"`
 	Note                 *string            `json:"note,omitempty"`
-	Labels               []string           `json:"labels,omitempty"`
+	Labels               Labels             `json:"labels,omitempty"`
 	TransactionAccount   TransactionAccount `json:"transaction_account"`
 	CreatedAt            time.Time          `json:"created_at"`
 	UpdatedAt            time.Time          `json:"updated_at"`
@@ -60,16 +60,16 @@ func (c *Client) ListTransactionsInUser(ctx context.Context, userID int, p ListT
 }
 
 type UpdateTransactionParams struct {
-	Memo         *string  `json:"memo,omitempty"`
-	ChequeNumber *string  `json:"cheque_number,omitempty"`
-	Payee        *string  `json:"payee,omitempty"`
-	Amount       *float64 `json:"amount,omitempty"`
-	Date         *string  `json:"date,omitempty"`
-	IsTransfer   *bool    `json:"is_transfer,omitempty"`
-	CategoryID   *int64   `json:"category_id,omitempty"`
-	Note         *string  `json:"note,omitempty"`
-	NeedsReview  *bool    `json:"needs_review,omitempty"`
-	Labels       *string  `json:"labels,omitempty"`
+	Memo         Param[string]  `json:"memo,omitzero"`
+	ChequeNumber Param[string]  `json:"cheque_number,omitzero"`
+	Payee        Param[string]  `json:"payee,omitzero"`
+	Amount       Param[float64] `json:"amount,omitzero"`
+	Date         Param[string]  `json:"date,omitzero"`
+	IsTransfer   Param[bool]    `json:"is_transfer,omitzero"`
+	CategoryID   Param[int64]   `json:"category_id,omitzero"`
+	Note         Param[string]  `json:"note,omitzero"`
+	NeedsReview  Param[bool]    `json:"needs_review,omitzero"`
+	Labels       Param[Labels]  `json:"labels,omitzero"`
 }
 
 func (c *Client) UpdateTransaction(ctx context.Context, id int64, p UpdateTransactionParams) (Transaction, error) {
