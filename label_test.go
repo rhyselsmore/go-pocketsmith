@@ -45,6 +45,38 @@ func TestLabels(t *testing.T) {
 	}
 }
 
+func TestLabelsAddAll(t *testing.T) {
+	labels := NewLabels("existing")
+
+	got := labels.AddAll("existing", "weekly", "weekly", "budget")
+	want := []bool{false, true, false, true}
+	if !slices.Equal(got, want) {
+		t.Fatalf("AddAll returned %v, want %v", got, want)
+	}
+
+	gotLabels := slices.Sorted(labels.All())
+	wantLabels := []string{"budget", "existing", "weekly"}
+	if !slices.Equal(gotLabels, wantLabels) {
+		t.Fatalf("AddAll produced %v, want %v", gotLabels, wantLabels)
+	}
+}
+
+func TestLabelsDeleteAll(t *testing.T) {
+	labels := NewLabels("budget", "existing", "weekly")
+
+	got := labels.DeleteAll("missing", "weekly", "weekly", "existing")
+	want := []bool{false, true, false, true}
+	if !slices.Equal(got, want) {
+		t.Fatalf("DeleteAll returned %v, want %v", got, want)
+	}
+
+	gotLabels := slices.Collect(labels.All())
+	wantLabels := []string{"budget"}
+	if !slices.Equal(gotLabels, wantLabels) {
+		t.Fatalf("DeleteAll produced %v, want %v", gotLabels, wantLabels)
+	}
+}
+
 func TestLabelsString(t *testing.T) {
 	labels := NewLabels("weekly", "budget", "groceries")
 

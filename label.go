@@ -45,6 +45,19 @@ func (s Labels) Add(value string) bool {
 	return true
 }
 
+// AddAll inserts values into the set. Each result reports whether the value at
+// the same index was newly added.
+//
+// AddAll panics if s is nil and values is non-empty. Use NewLabels or a Labels
+// literal to initialize it.
+func (s Labels) AddAll(values ...string) []bool {
+	added := make([]bool, len(values))
+	for i, value := range values {
+		added[i] = s.Add(value)
+	}
+	return added
+}
+
 // Delete removes value from the set and reports whether it was present.
 func (s Labels) Delete(value string) bool {
 	if !s.Has(value) {
@@ -52,6 +65,16 @@ func (s Labels) Delete(value string) bool {
 	}
 	delete(s, value)
 	return true
+}
+
+// DeleteAll removes values from the set. Each result reports whether the value
+// at the same index was present.
+func (s Labels) DeleteAll(values ...string) []bool {
+	deleted := make([]bool, len(values))
+	for i, value := range values {
+		deleted[i] = s.Delete(value)
+	}
+	return deleted
 }
 
 // Clear removes all labels from the set.
